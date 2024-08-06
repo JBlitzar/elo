@@ -3,7 +3,6 @@ var options;
 var scores;
 
 $(".load").click(function () {
-  //$('.collapse').collapse();
   $("#download").css("visibility", "visible");
   var input = $("textarea").val().split("\n");
   $("tbody").empty();
@@ -15,22 +14,30 @@ $(".load").click(function () {
     var elements = input[i].split(",");
     var option = elements[0].replace(/^\s+|\s+$/g, "");
 
-    if (elements.length < 2) var score = 1500.0;
-    else var score = parseFloat(elements[1]);
+    var score = elements.length < 2 ? 1500.0 : parseFloat(elements[1]);
 
     if (option != "") {
-      $("tbody").append(
-        '<tr><th scope="row">' +
-          i +
-          "</th><td>" +
-          option +
-          "</td><td>" +
-          score +
-          "</td></tr>"
-      );
-      scores.push(score);
-      options.push(option);
+      scores.push({ option: option, score: score });
     }
+  }
+
+  // Sort scores in descending order
+  scores.sort((a, b) => b.score - a.score);
+  console.log(scores);
+
+  // Append sorted scores to the table
+  for (var i = 0; i < scores.length; i++) {
+    $("tbody").append(
+      '<tr><th scope="row">' +
+        i +
+        "</th><td>" +
+        scores[i].option +
+        "</td><td>" +
+        scores[i].score +
+        "</td></tr>"
+    );
+
+    options.push(scores[i].option);
   }
 
   displayValues();
@@ -42,8 +49,8 @@ $(".downloadFile").click(function () {
 
   csvFile += "item," + criterion + " score\r\n";
 
-  for (var i = 0; i < options.length; i++) {
-    let row = options[i] + "," + scores[i];
+  for (var i = 0; i < scores.length; i++) {
+    let row = scores[i].option + "," + scores[i].score;
     csvFile += row + "\r\n";
   }
 
@@ -62,21 +69,38 @@ $(".option").click(function () {
   var results;
   if ($(this).attr("id") == "option1") {
     option = 1;
-    results = eloScore(scores[current1], scores[current2]);
+    results = eloScore(scores[current1].score, scores[current2].score);
   } else {
-    results = eloScore(scores[current2], scores[current1]);
+    results = eloScore(scores[current2].score, scores[current1].score);
     results = results.reverse();
   }
 
-  scores[current1] = results[0];
-  setCellContentsAt(current1 + 1, 1, Math.round(scores[current1]));
+  scores[current1].score = results[0];
+  setCellContentsAt(current1 + 1, 1, Math.round(scores[current1].score));
 
-  scores[current2] = results[1];
-  setCellContentsAt(current2 + 1, 1, Math.round(scores[current2]));
+  scores[current2].score = results[1];
+  setCellContentsAt(current2 + 1, 1, Math.round(scores[current2].score));
 
   displayValues();
   updateProgress();
+  sortTable();
 });
+
+function sortTable() {
+  scores.sort((a, b) => b.score - a.score);
+  $("tbody").empty();
+  for (var i = 0; i < scores.length; i++) {
+    $("tbody").append(
+      '<tr><th scope="row">' +
+        i +
+        "</th><td>" +
+        scores[i].option +
+        "</td><td>" +
+        scores[i].score +
+        "</td></tr>"
+    );
+  }
+}
 
 function displayValues() {
   current1 = Math.ceil(options.length * Math.random()) - 1;
@@ -116,7 +140,9 @@ function getCellContentsAt(rowIndex, colIndex) {
 }
 
 function updateProgress() {
-  var spread = Math.max(...scores) - Math.min(...scores);
+  var spread =
+    Math.max(...scores.map((s) => s.score)) -
+    Math.min(...scores.map((s) => s.score));
   $(".progress-bar").width(spread / 5 + "%");
 
   if (spread / 5 > 80) {
