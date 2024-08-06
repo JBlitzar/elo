@@ -144,7 +144,7 @@ function displayValues() {
     current2 = Math.ceil(options.length * Math.random()) - 1;
   }
 
-  if (mode == similar) {
+  if (mode == "similar") {
     current1 = Math.ceil(options.length * Math.random()) - 1;
     current2 = current1 + Math.round(Math.random() / similarProb);
   }
