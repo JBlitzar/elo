@@ -145,10 +145,13 @@ function displayValues() {
   }
 
   if (mode == "similar") {
+    console.log("sim!");
+    var a = 0;
     current1 = Math.ceil(options.length * Math.random()) - 1;
     do {
-      current2 = current1 + Math.ceil(Math.random() / similarProb);
-    } while (current2 == current1);
+      current2 = current1 + Math.ceil((Math.random() - 0.5) / similarProb);
+      a++;
+    } while (current2 == current1 || scores[current2] == undefined || a > 1000);
   }
 
   if (scores[current2].score > scores[current1]) {
@@ -185,15 +188,23 @@ function getCellContentsAt(rowIndex, colIndex) {
 }
 
 function updateProgress() {
-  const variance = (data) =>
-    data.length > 0
-      ? data.reduce(
-          (a, b) => a + (b - data.reduce((a, b) => a + b) / data.length) ** 2,
-          0
-        ) / data.length
-      : 0;
+  function variance(data) {
+    if (data.length === 0) {
+      throw new Error("Data array is empty");
+    }
 
-  var spread = variance(...scores.map((s) => s.score));
+    // Calculate the mean
+    const mean = data.reduce((acc, val) => acc + val, 0) / data.length;
+
+    // Calculate the variance
+    const variance =
+      data.reduce((acc, val) => acc + Math.pow(val - mean, 2), 0) / data.length;
+
+    return variance;
+  }
+
+  var spread = variance(scores.map((s) => s.score));
+  console.log(`spread: ${spread}`);
   // Math.max(...scores.map((s) => s.score)) -
   // Math.min(...scores.map((s) => s.score));
 
