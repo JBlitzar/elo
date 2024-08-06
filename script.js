@@ -151,6 +151,10 @@ function displayValues() {
     } while (current2 == current1);
   }
 
+  if (scores[current2].score > scores[current1]) {
+    current2 = [current1, (current1 = current2)][0];
+  }
+
   $("#option1").html(getCellContentsAt(current1 + 1, 0));
   $("#option2").html(getCellContentsAt(current2 + 1, 0));
 }

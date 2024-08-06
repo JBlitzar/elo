@@ -55,3 +55,7 @@ input {
   text-align: center;
   border-bottom: 1px solid #f00;
 }
+
+.option {
+  border: 5px;
+}
