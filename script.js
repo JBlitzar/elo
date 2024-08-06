@@ -1,6 +1,7 @@
 var current1, current2;
 var options;
 var scores;
+var similarProb = 0;
 
 $(".load").click(function () {
   $("#download").css("visibility", "visible");
@@ -132,11 +133,20 @@ function sortTable() {
 }
 
 function displayValues() {
+  mode = "random";
+  if (Math.random() < similarProb) {
+    mode = "similar";
+  }
   current1 = Math.ceil(options.length * Math.random()) - 1;
   current2 = current1;
 
   while (current2 == current1) {
     current2 = Math.ceil(options.length * Math.random()) - 1;
+  }
+
+  if (mode == similar) {
+    current1 = Math.ceil(options.length * Math.random()) - 1;
+    current2 = current1 + Math.round(Math.random() / similarProb);
   }
 
   $("#option1").html(getCellContentsAt(current1 + 1, 0));
@@ -173,6 +183,8 @@ function updateProgress() {
     Math.max(...scores.map((s) => s.score)) -
     Math.min(...scores.map((s) => s.score));
   $(".progress-bar").width(spread / 5 + "%");
+
+  similarProb = (spread / 5) ** 3;
 
   if (spread / 5 > 80) {
     $(".progress-bar").addClass("bg-success");
