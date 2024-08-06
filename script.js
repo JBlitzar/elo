@@ -184,7 +184,7 @@ function updateProgress() {
     Math.min(...scores.map((s) => s.score));
   $(".progress-bar").width(spread / 5 + "%");
 
-  similarProb = (spread / 5) ** 3;
+  similarProb = (spread / 500) ** 3;
 
   if (spread / 5 > 80) {
     $(".progress-bar").addClass("bg-success");
