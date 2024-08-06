@@ -1,0 +1,57 @@
+/* CSS files add styling rules to your content */
+
+body {
+  font-family: "Benton Sans", "Helvetica Neue", helvetica, arial, sans-serif;
+  margin: 2em;
+}
+
+p {
+  max-width: 1000px;
+}
+
+h1 {
+  font-style: italic;
+  color: #373fff;
+}
+
+#ranking div {
+  background: #ddd;
+  margin: 10px;
+  border: 1px solid;
+  cursor: pointer;
+}
+
+#ranking div:hover {
+  background: #ccc;
+}
+
+#ranking div:active {
+  background: #aaa;
+}
+
+div {
+  margin-bottom: 20px;
+}
+
+#collapser {
+  padding: 5px;
+}
+
+#ranking div {
+  padding: 30px;
+  font-size: 30px;
+  font-weight: bold;
+  text-align: center;
+}
+
+#download {
+  visibility: hidden;
+}
+
+input {
+  border: 0;
+  width: auto;
+  color: #f00;
+  text-align: center;
+  border-bottom: 1px solid #f00;
+}

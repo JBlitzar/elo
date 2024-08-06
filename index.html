@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=UA-142101736-1"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+
+      gtag("config", "UA-142101736-1");
+    </script>
+
+    <title>Elo ranker</title>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- import the webpage's stylesheet -->
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="/style.css" />
+
+    <!-- import the webpage's javascript file -->
+    <script src="/script.js" defer></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <h1>Da easy Elo ranker</h1>
+
+    <h4>What is Elo ranking?</h4>
+
+    <p>
+      <a href="https://en.wikipedia.org/wiki/Elo_rating_system?wprov=srpw1_0"
+        >Elo ranking</a
+      >
+      allows establishing a ranking of any number of elements, by pitting them
+      one against another in a series of fights to the death.
+    </p>
+
+    <p>
+      Think about it. If I give you a list of 10 movies and ask you to rank
+      them, it's gonna be hard, isn't it? But if I ask you which one you prefer,
+      among 2, it's easy. Well that's what we do here: we take options 2 by 2,
+      and by doing some crazy advanced math we can rank all of them in a
+      scientifically unassailable way.
+    </p>
+
+    <p>
+      I've initially built this for
+      <a href="https://about.me/gavrilo.bozovic">myself</a>, to help in my day
+      job as a product manager. I've written about Elo rating for feature
+      prioritization
+      <a
+        href="https://medium.com/@gavrilo.bozovic/how-to-prioritize-like-a-chess-player-2ef230a57c0c"
+        >here</a
+      >.
+    </p>
+
+    <h4>How to use it</h4>
+
+    <p>
+      Drop any content in the text area below. Hit "load data" and it will...
+      well guess what it will do. Then, in each fight, vote by clicking on the
+      one you like best. Once you're happy, hit "download csv"
+    </p>
+
+    <p>
+      There's even a progress bar! Progress here means: spread between min and
+      max score. Don't read too much into it; you're done when you have the
+      feeling that you get the same questions over and over again.
+    </p>
+    <p style="height: 20px"></p>
+    <h2>
+      What is the most
+      <input type="text" value="awesomest movie" name="rating" />:
+    </h2>
+
+    <div class="row" id="ranking">
+      <div class="col option" id="option1"></div>
+      <span>
+        <h2>or</h2>
+      </span>
+      <div class="col option" id="option2"></div>
+    </div>
+
+    <div class="progress">
+      <div
+        class="progress-bar"
+        role="progressbar"
+        style="width: 0%; height: 100%"
+        aria-valuenow="0"
+        aria-valuemin="0"
+        aria-valuemax="100"
+      ></div>
+    </div>
+
+    <div
+      id="collapser"
+      type="button"
+      data-toggle="collapse"
+      data-target="#parameters"
+      aria-expanded="true"
+      aria-controls="parameters"
+    >
+      toggle parameters
+    </div>
+
+    <div class="collapse show" id="parameters" aria-labelledby="headingOne">
+      <!-- start of params section -->
+      <div class="row">
+        <div class="col">
+          <textarea rows="15" cols="100" id="input">
+Commando
+Predator
+Robocop
+Die Hard
+The Thing
+Back to the Future
+Terminator</textarea
+          >
+
+          <button type="button" class="btn btn-primary load">Load data</button>
+          <div>
+            <em
+              >if you have no values, drop a list of options with a carriage
+              return at the end of each line. If you already have scores put
+              your data like "item,score". You can also paste the csv content of
+              a previous run to continue ranking (remove the header though)</em
+            >
+          </div>
+        </div>
+        <div class="col">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Option</th>
+                <th scope="col">Score</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+        <!-- end of params section -->
+      </div>
+    </div>
+    <div id="download">
+      <button type="button" class="btn downloadFile">Download csv</button>
+    </div>
+  </body>
+</html>
