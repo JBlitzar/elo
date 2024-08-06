@@ -64,22 +64,51 @@ $(".downloadFile").click(function () {
   link.click();
 });
 
+var totalGuesses = 0;
+var correctGuesses = 0;
+
 $(".option").click(function () {
   var option = 2;
   var results;
+  var higherEloIndex, lowerEloIndex;
+  var isCorrect = false;
+
   if ($(this).attr("id") == "option1") {
     option = 1;
     results = eloScore(scores[current1].score, scores[current2].score);
+    higherEloIndex =
+      scores[current1].score > scores[current2].score ? current1 : current2;
   } else {
     results = eloScore(scores[current2].score, scores[current1].score);
     results = results.reverse();
+    higherEloIndex =
+      scores[current2].score > scores[current1].score ? current2 : current1;
   }
+
+  lowerEloIndex = higherEloIndex === current1 ? current2 : current1;
 
   scores[current1].score = results[0];
   setCellContentsAt(current1 + 1, 1, Math.round(scores[current1].score));
 
   scores[current2].score = results[1];
   setCellContentsAt(current2 + 1, 1, Math.round(scores[current2].score));
+
+  // Check if the user's preference matches the higher ELO option
+  if (
+    (option === 1 && higherEloIndex === current1) ||
+    (option === 2 && higherEloIndex === current2)
+  ) {
+    correctGuesses++;
+    isCorrect = true;
+  }
+  totalGuesses++;
+
+  // Update the stats display
+  var accuracy = ((correctGuesses / totalGuesses) * 100).toFixed(0);
+  var lastGuess = isCorrect ? "Correct" : "Incorrect";
+  $("#stats").html(
+    `Last guess: ${lastGuess}. ${correctGuesses}/${totalGuesses}. ${accuracy}%`
+  );
 
   displayValues();
   updateProgress();
