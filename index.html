@@ -50,54 +50,11 @@
     ></script>
   </head>
   <body>
-    <h1>Da easy Elo ranker</h1>
+    <h1>Elo ranker</h1>
 
-    <h4>What is Elo ranking?</h4>
-
-    <p>
-      <a href="https://en.wikipedia.org/wiki/Elo_rating_system?wprov=srpw1_0"
-        >Elo ranking</a
-      >
-      allows establishing a ranking of any number of elements, by pitting them
-      one against another in a series of fights to the death.
-    </p>
-
-    <p>
-      Think about it. If I give you a list of 10 movies and ask you to rank
-      them, it's gonna be hard, isn't it? But if I ask you which one you prefer,
-      among 2, it's easy. Well that's what we do here: we take options 2 by 2,
-      and by doing some crazy advanced math we can rank all of them in a
-      scientifically unassailable way.
-    </p>
-
-    <p>
-      I've initially built this for
-      <a href="https://about.me/gavrilo.bozovic">myself</a>, to help in my day
-      job as a product manager. I've written about Elo rating for feature
-      prioritization
-      <a
-        href="https://medium.com/@gavrilo.bozovic/how-to-prioritize-like-a-chess-player-2ef230a57c0c"
-        >here</a
-      >.
-    </p>
-
-    <h4>How to use it</h4>
-
-    <p>
-      Drop any content in the text area below. Hit "load data" and it will...
-      well guess what it will do. Then, in each fight, vote by clicking on the
-      one you like best. Once you're happy, hit "download csv"
-    </p>
-
-    <p>
-      There's even a progress bar! Progress here means: spread between min and
-      max score. Don't read too much into it; you're done when you have the
-      feeling that you get the same questions over and over again.
-    </p>
-    <p style="height: 20px"></p>
     <h2>
       What is the most
-      <input type="text" value="awesomest movie" name="rating" />:
+      <input type="text" value="good thing" name="rating" />:
     </h2>
 
     <div class="row" id="ranking">
@@ -135,13 +92,11 @@
       <div class="row">
         <div class="col">
           <textarea rows="15" cols="100" id="input">
-Commando
-Predator
-Robocop
-Die Hard
-The Thing
-Back to the Future
-Terminator</textarea
+1
+2
+3
+4
+5</textarea
           >
 
           <button type="button" class="btn btn-primary load">Load data</button>
