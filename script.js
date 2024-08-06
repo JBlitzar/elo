@@ -149,7 +149,8 @@ function displayValues() {
     var a = 0;
     current1 = Math.ceil(options.length * Math.random()) - 1;
     do {
-      current2 = current1 + Math.ceil((Math.random() - 0.5) / similarProb);
+      current2 =
+        current1 + Math.ceil((5 * (Math.random() - 0.5)) / similarProb);
       a++;
     } while (current2 == current1 || scores[current2] == undefined || a > 1000);
   }
@@ -208,7 +209,7 @@ function updateProgress() {
   // Math.max(...scores.map((s) => s.score)) -
   // Math.min(...scores.map((s) => s.score));
 
-  const magic_number = Math.sqrt(250) / 100;
+  const magic_number = Math.sqrt(250) / 500;
 
   $(".progress-bar").width(spread * magic_number + "%");
 
