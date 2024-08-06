@@ -181,14 +181,25 @@ function getCellContentsAt(rowIndex, colIndex) {
 }
 
 function updateProgress() {
-  var spread =
-    Math.max(...scores.map((s) => s.score)) -
-    Math.min(...scores.map((s) => s.score));
-  $(".progress-bar").width(spread / 5 + "%");
+  const variance = (data) =>
+    data.length > 0
+      ? data.reduce(
+          (a, b) => a + (b - data.reduce((a, b) => a + b) / data.length) ** 2,
+          0
+        ) / data.length
+      : 0;
 
-  similarProb = (spread / 500) ** 3;
+  var spread = variance(...scores.map((s) => s.score));
+  // Math.max(...scores.map((s) => s.score)) -
+  // Math.min(...scores.map((s) => s.score));
 
-  if (spread / 5 > 80) {
+  const magic_number = Math.sqrt(250) / 100;
+
+  $(".progress-bar").width(spread * magic_number + "%");
+
+  similarProb = ((spread * magic_number) / 100) ** 3;
+
+  if (spread * magic_number > 80) {
     $(".progress-bar").addClass("bg-success");
   }
 }
