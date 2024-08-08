@@ -155,7 +155,7 @@ function displayValues() {
     } while (current2 == current1 || scores[current2] == undefined || a > 1000);
   }
 
-  if (scores[current2].score > scores[current1]) {
+  if (scores[current2].score > scores[current1].score) {
     current2 = [current1, (current1 = current2)][0];
   }
 
