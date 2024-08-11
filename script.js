@@ -152,7 +152,10 @@ function displayValues() {
       current2 =
         current1 + Math.ceil((5 * (Math.random() - 0.5)) / similarProb);
       a++;
-    } while (current2 == current1 || scores[current2] == undefined || a > 1000);
+    } while (
+      current2 == current1 ||
+      (scores[current2] == undefined && a > 1000)
+    );
   }
 
   if (scores[current2].score > scores[current1].score) {
