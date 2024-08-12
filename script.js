@@ -156,6 +156,16 @@ function displayValues() {
       current2 == current1 ||
       (scores[current2] == undefined && a > 1000)
     );
+
+    if (a >= 998) {
+      // avoid oboes, prob bad (998)
+      current1 = Math.ceil(options.length * Math.random()) - 1;
+      current2 = current1;
+
+      while (current2 == current1) {
+        current2 = Math.ceil(options.length * Math.random()) - 1;
+      }
+    }
   }
 
   if (scores[current2].score > scores[current1].score) {
